@@ -7,11 +7,22 @@ request.open('GET', 'https://api.github.com/users/supreetsingh247/repos', true)
 request.onload = function () {
   // Begin accessing JSON data here
   var data = JSON.parse(this.response);
-
+  
+  var sortedNameData = data.sort((a, b) => {
+    if(a.name < b.name) {
+      return -1;
+    } else if (a.name > b.name) {
+      return 1;
+    }
+    return 0;
+  });
+  
+  
   var statusHTML = '';
-  $.each(data, function(i, status) {
+  $.each(sortedNameData, function(i, status) {
     statusHTML += '<tr>';
     statusHTML += '<td>' + status.id + '</td>';
+    statusHTML += '<td>' + status.name + '</td>';
     statusHTML += '<td>' + status.html_url + '</td>';
     statusHTML += '</tr>';
   });
